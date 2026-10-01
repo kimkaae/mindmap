@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>폐암환자 수술 전 교육자료 마인드맵</title>
+<meta name="description" content="폐암환자 수술 전 교육자료에 대한 전문가 합의 과정 — 인터랙티브 마인드맵">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  :root {
+    --bg: #f7f8fb;
+    --panel: rgba(255,255,255,.88);
+    --panel-border: #e3e6ee;
+    --text: #1f2330;
+    --muted: #677085;
+    --n0: #c7c9fb; --n0-stroke: #a9acef;
+    --n1: #bdd5f1; --n1-stroke: #9dbde6;
+    --n2: #a3dcd0; --n2-stroke: #85cbbb;
+    --link0: #8c9be6;
+    --link1: #6f97cf;
+    --toggle: #c9d7ef; --toggle-text: #2b3550;
+    --shadow: 0 1px 2px rgba(20,30,60,.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #12141b;
+      --panel: rgba(28,31,41,.9);
+      --panel-border: #2c303d;
+      --text: #e8eaf2;
+      --muted: #9aa2b6;
+      --n0: #4a4d9a; --n0-stroke: #6266bd;
+      --n1: #2f4f78; --n1-stroke: #426a9c;
+      --n2: #23574d; --n2-stroke: #2f7365;
+      --link0: #6b78c4;
+      --link1: #5a80b6;
+      --toggle: #384663; --toggle-text: #e8eaf2;
+      --shadow: 0 1px 2px rgba(0,0,0,.4);
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  header {
+    position: fixed; top: 12px; left: 16px; right: 16px; z-index: 2;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    pointer-events: none;
+  }
+  header h1 {
+    margin: 0; font-size: 15px; font-weight: 600; color: var(--muted);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .controls {
+    display: flex; gap: 4px; padding: 4px;
+    background: var(--panel); border: 1px solid var(--panel-border); border-radius: 12px;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    pointer-events: auto; flex-shrink: 0;
+  }
+  .controls button {
+    font: inherit; font-size: 13px; color: var(--text);
+    background: transparent; border: 0; border-radius: 8px;
+    height: 32px; min-width: 32px; padding: 0 10px; cursor: pointer;
+  }
+  .controls button:hover { background: rgba(127,140,180,.16); }
+  .controls .sep { width: 1px; background: var(--panel-border); margin: 4px 2px; }
+  .hint {
+    position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%); z-index: 2;
+    font-size: 12px; color: var(--muted); background: var(--panel);
+    border: 1px solid var(--panel-border); border-radius: 999px; padding: 6px 14px;
+    white-space: nowrap; transition: opacity .6s; max-width: calc(100vw - 32px); text-align: center;
+  }
+  svg { display: block; width: 100vw; height: 100vh; touch-action: none; cursor: grab; user-select: none; -webkit-user-select: none; }
+  svg.dragging { cursor: grabbing; }
+  .node { cursor: pointer; }
+  .node rect.box { stroke-width: 1; filter: drop-shadow(var(--shadow)); }
+  .node text { font-size: 15px; fill: var(--text); dominant-baseline: central; }
+  .node .tg circle { fill: var(--toggle); }
+  .node .tg text { font-size: 12px; font-weight: 600; fill: var(--toggle-text); text-anchor: middle; }
+  .node:hover rect.box { filter: brightness(1.04) drop-shadow(var(--shadow)); }
+  .node:focus, .node:focus-visible { outline: none; }
+  .node:focus-visible rect.box { stroke: var(--link1); stroke-width: 2; }
+  .d0 rect.box { fill: var(--n0); stroke: var(--n0-stroke); }
+  .d1 rect.box { fill: var(--n1); stroke: var(--n1-stroke); }
+  .d2 rect.box { fill: var(--n2); stroke: var(--n2-stroke); }
+  path.link { fill: none; stroke-width: 1.6; }
+  path.l0 { stroke: var(--link0); }
+  path.l1 { stroke: var(--link1); }
+  @media (max-width: 640px) {
+    header { flex-direction: column; align-items: flex-start; }
+    .controls button.wide { padding: 0 8px; font-size: 12px; }
+    .hint { white-space: normal; border-radius: 12px; width: max-content; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>폐암환자 수술 전 교육자료 · 전문가 합의 과정</h1>
+  <div class="controls">
+    <button class="wide" id="expandAll" title="모두 펼치기">모두 펼치기</button>
+    <button class="wide" id="collapseAll" title="모두 접기">모두 접기</button>
+    <span class="sep"></span>
+    <button id="zoomOut" title="축소" aria-label="축소">−</button>
+    <button id="zoomIn" title="확대" aria-label="확대">+</button>
+    <button id="fit" title="화면에 맞추기" aria-label="화면에 맞추기">⤢</button>
+  </div>
+</header>
+<div class="hint" id="hint">항목을 클릭하면 펼치거나 접을 수 있어요 · 드래그로 이동 · 휠/핀치로 확대</div>
+
+<svg id="svg" xmlns="http://www.w3.org/2000/svg">
+  <g id="viewport">
+    <g id="links"></g>
+    <g id="nodes"></g>
+  </g>
+</svg>
+
+<script>
+const DATA = {
+  name: "폐암환자 수술 전 교육자료에 대한 전문가 합의 과정",
+  children: [
+    { name: "폐암에 대한 간단한 배경 정보", children: [
+      { name: "폐암 병기 요약 정보" },
+      { name: "치료법(수술, 방사선, 항암 등)의 포괄적 언급" }
+    ]},
+    { name: "수술 자체에 대한 세부 사항", children: [
+      { name: "일반적인 폐 절제술 옵션 설명" },
+      { name: "설명을 위한 도식 및 메모 공간 제공" },
+      { name: "배액관(흉관) 사용 가능성 안내" }
+    ]},
+    { name: "수술 준비 과정", children: [
+      { name: "금연 정보 및 금연 콜센터 번호" },
+      { name: "복용 중인 모든 약물 기록 확인" },
+      { name: "수술 전 금식 계획 지침" },
+      { name: "수술 전날 피부 세정 프로토콜" },
+      { name: "수술 전 운동 및 신체 활동 권고" },
+      { name: "사전 연명의료 계획(ACP) 도입" }
+    ]},
+    { name: "수술 당일 안내", children: [
+      { name: "주차, 입원수속, 준비물 등 물류 정보" },
+      { name: "수술 중 보호자 대상 상태 업데이트 방식" }
+    ]},
+    { name: "입원 기간 중 관리", children: [
+      { name: "회복실, 중환자실 등 입원 유닛 유형 안내" },
+      { name: "입원 중 달성해야 할 활동 및 통증 목표" },
+      { name: "예상 입원 기간 및 퇴원 기준" },
+      { name: "입원 및 퇴원 후 통증 관리 전략" }
+    ]},
+    { name: "회복 및 퇴원 후 소통", children: [
+      { name: "회복 목표 달성을 위한 일반적 지침" },
+      { name: "퇴원 시 상처 및 약물 관리 상세 교육 예고" },
+      { name: "의료진과의 선호하는 소통 방법 안내" }
+    ]}
+  ]
+};
+
+// ---------- constants ----------
+const NODE_H = 42, PAD_X = 18, GAP_Y = 14, GROUP_GAP = 26, GAP_X = 84, TOGGLE_R = 11, TOGGLE_OFF = 18;
+const DURATION = 380;
+const SVGNS = "http://www.w3.org/2000/svg";
+const svg = document.getElementById("svg");
+const viewport = document.getElementById("viewport");
+const linksG = document.getElementById("links");
+const nodesG = document.getElementById("nodes");
+
+// ---------- tree setup ----------
+const all = [];
+function init(n, depth, parent) {
+  n.depth = depth; n.parent = parent; n.kids = n.children || [];
+  n.open = depth === 0;           // start with first level visible
+  n.cur = { x: 0, y: 0, a: depth === 0 ? 1 : 0 };
+  all.push(n);
+  n.kids.forEach(c => init(c, depth + 1, n));
+}
+init(DATA, 0, null);
+const root = DATA;
+
+function measure() {
+  const ctx = document.createElement("canvas").getContext("2d");
+  const ff = getComputedStyle(document.body).fontFamily;
+  ctx.font = `15px ${ff}`;
+  all.forEach(n => { n.w = Math.ceil(ctx.measureText(n.name).width) + PAD_X * 2; });
+}
+
+function visible(n) { for (let p = n.parent; p; p = p.parent) if (!p.open) return false; return true; }
+
+// ---------- layout ----------
+function layout() {
+  const maxW = [];
+  all.forEach(n => maxW[n.depth] = Math.max(maxW[n.depth] || 0, n.w + (n.kids.length ? TOGGLE_OFF + TOGGLE_R : 0)));
+  const colX = []; let x = 0;
+  maxW.forEach((w, d) => { colX[d] = x; x += w + GAP_X; });
+
+  let cursor = 0;
+  (function place(n) {
+    n.t = { x: colX[n.depth], y: 0, a: 1 };
+    const kids = n.open ? n.kids : [];
+    if (!kids.length) { n.t.y = cursor + NODE_H / 2; cursor += NODE_H + GAP_Y; }
+    else {
+      kids.forEach(place);
+      n.t.y = (kids[0].t.y + kids[kids.length - 1].t.y) / 2;
+    }
+    if (n.depth === 1) cursor += GROUP_GAP;
+  })(root);
+
+  // hidden nodes collapse into nearest visible ancestor
+  all.forEach(n => {
+    if (visible(n)) return;
+    let anc = n.parent; while (!visible(anc)) anc = anc.parent;
+    n.t = { x: anc.t.x + anc.w * 0.6, y: anc.t.y, a: 0 };
+  });
+}
+
+// ---------- DOM ----------
+function buildDom() {
+  all.forEach(n => {
+    const g = document.createElementNS(SVGNS, "g");
+    g.setAttribute("class", `node d${Math.min(n.depth, 2)}`);
+    const r = document.createElementNS(SVGNS, "rect");
+    r.setAttribute("class", "box"); r.setAttribute("width", n.w); r.setAttribute("height", NODE_H);
+    r.setAttribute("y", -NODE_H / 2); r.setAttribute("rx", 7);
+    const t = document.createElementNS(SVGNS, "text");
+    t.setAttribute("x", PAD_X); t.setAttribute("y", 1); t.textContent = n.name;
+    g.append(r, t);
+    if (n.kids.length) {
+      const tg = document.createElementNS(SVGNS, "g");
+      tg.setAttribute("class", "tg");
+      tg.setAttribute("transform", `translate(${n.w + TOGGLE_OFF},0)`);
+      const c = document.createElementNS(SVGNS, "circle"); c.setAttribute("r", TOGGLE_R);
+      const ct = document.createElementNS(SVGNS, "text"); ct.setAttribute("y", 1);
+      tg.append(c, ct); g.append(tg);
+      n.tgText = ct;
+      g.setAttribute("tabindex", "0");
+      g.setAttribute("role", "button");
+      g.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(n); } });
+      g.addEventListener("click", () => { if (!suppressClick) toggle(n); });
+    }
+    nodesG.append(g); n.el = g;
+    if (n.parent) {
+      const p = document.createElementNS(SVGNS, "path");
+      p.setAttribute("class", `link ${n.depth === 1 ? "l0" : "l1"}`);
+      linksG.append(p); n.link = p;
+    }
+  });
+}
+
+function draw() {
+  all.forEach(n => {
+    const { x, y, a } = n.cur;
+    n.el.setAttribute("transform", `translate(${x},${y})`);
+    n.el.style.opacity = a;
+    n.el.style.pointerEvents = a < 0.5 ? "none" : "";
+    n.el.style.display = a < 0.01 ? "none" : "";
+    if (n.tgText) n.tgText.textContent = n.open ? "‹" : "›";
+    if (n.link) {
+      const p = n.parent.cur;
+      const sx = p.x + n.parent.w + (n.parent.kids.length ? TOGGLE_OFF + TOGGLE_R : 0), sy = p.y;
+      const ex = x, ey = y, mx = (sx + ex) / 2;
+      n.link.setAttribute("d", `M${sx},${sy} C${mx},${sy} ${mx},${ey} ${ex},${ey}`);
+      n.link.style.opacity = a;
+      n.link.style.display = a < 0.01 ? "none" : "";
+    }
+  });
+  viewport.setAttribute("transform", `translate(${view.x},${view.y}) scale(${view.k})`);
+}
+
+// ---------- view / pan / zoom ----------
+const view = { x: 0, y: 0, k: 1 };
+let anim = null;
+
+function bounds(useTarget) {
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  all.forEach(n => {
+    const s = useTarget ? n.t : n.cur;
+    if (s.a < 0.5) return;
+    x0 = Math.min(x0, s.x); x1 = Math.max(x1, s.x + n.w + (n.kids.length ? TOGGLE_OFF + TOGGLE_R : 0));
+    y0 = Math.min(y0, s.y - NODE_H / 2); y1 = Math.max(y1, s.y + NODE_H / 2);
+  });
+  return { x0, y0, x1, y1 };
+}
+
+function fitView() {
+  const b = bounds(true);
+  const W = innerWidth, H = innerHeight;
+  const top = innerWidth <= 640 ? 110 : 70, pad = 24;
+  const k = Math.min(1.15, (W - pad * 2) / (b.x1 - b.x0), (H - top - pad - 40) / (b.y1 - b.y0));
+  return {
+    k,
+    x: (W - (b.x1 - b.x0) * k) / 2 - b.x0 * k,
+    y: top + (H - top - 40 - (b.y1 - b.y0) * k) / 2 - b.y0 * k
+  };
+}
+
+function animate(targetView) {
+  const from = all.map(n => ({ ...n.cur }));
+  const fromV = { ...view };
+  const toV = targetView || { ...view };
+  const t0 = performance.now();
+  if (anim) cancelAnimationFrame(anim);
+  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  (function step(now) {
+    const p = Math.min(1, (now - t0) / DURATION), e = ease(p);
+    all.forEach((n, i) => {
+      n.cur.x = from[i].x + (n.t.x - from[i].x) * e;
+      n.cur.y = from[i].y + (n.t.y - from[i].y) * e;
+      n.cur.a = from[i].a + (n.t.a - from[i].a) * e;
+    });
+    view.x = fromV.x + (toV.x - fromV.x) * e;
+    view.y = fromV.y + (toV.y - fromV.y) * e;
+    view.k = fromV.k + (toV.k - fromV.k) * e;
+    draw();
+    anim = p < 1 ? requestAnimationFrame(step) : null;
+  })(t0);
+}
+
+function toggle(n) {
+  if (!n.kids.length) return;
+  // keep the clicked node anchored on screen
+  const before = { ...n.cur };
+  n.open = !n.open;
+  if (!n.open) n.kids.forEach(function close(c) { c.open = false; c.kids.forEach(close); });
+  layout();
+  const v = { k: view.k, x: view.x - (n.t.x - before.x) * view.k, y: view.y - (n.t.y - before.y) * view.k };
+  animate(v);
+  hideHint();
+}
+
+function setAll(open) {
+  all.forEach(n => { if (n.kids.length) n.open = open || n.depth === 0; });
+  layout();
+  animate(fitView());
+  hideHint();
+}
+
+function zoomAt(factor, cx, cy) {
+  const k = Math.max(0.2, Math.min(3, view.k * factor));
+  const f = k / view.k;
+  view.x = cx - (cx - view.x) * f;
+  view.y = cy - (cy - view.y) * f;
+  view.k = k;
+  draw();
+}
+
+// pointer: drag to pan, pinch to zoom
+const pointers = new Map();
+let suppressClick = false, dragStart = null, pinchStart = null;
+svg.addEventListener("pointerdown", e => {
+  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (pointers.size === 1) { dragStart = { x: e.clientX, y: e.clientY, vx: view.x, vy: view.y, moved: false }; suppressClick = false; }
+  if (pointers.size === 2) {
+    const [a, b] = [...pointers.values()];
+    pinchStart = { d: Math.hypot(a.x - b.x, a.y - b.y), k: view.k, vx: view.x, vy: view.y, cx: (a.x + b.x) / 2, cy: (a.y + b.y) / 2 };
+  }
+});
+svg.addEventListener("pointermove", e => {
+  if (!pointers.has(e.pointerId)) return;
+  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (pointers.size === 2 && pinchStart) {
+    const [a, b] = [...pointers.values()];
+    const d = Math.hypot(a.x - b.x, a.y - b.y);
+    const k = Math.max(0.2, Math.min(3, pinchStart.k * d / pinchStart.d));
+    const cx = (a.x + b.x) / 2, cy = (a.y + b.y) / 2;
+    const f = k / pinchStart.k;
+    view.k = k;
+    view.x = cx - (pinchStart.cx - pinchStart.vx) * f;
+    view.y = cy - (pinchStart.cy - pinchStart.vy) * f;
+    suppressClick = true;
+    draw();
+  } else if (pointers.size === 1 && dragStart) {
+    const dx = e.clientX - dragStart.x, dy = e.clientY - dragStart.y;
+    if (!dragStart.moved && Math.hypot(dx, dy) > 5) {
+      dragStart.moved = true; suppressClick = true;
+      svg.classList.add("dragging");
+      try { svg.setPointerCapture(e.pointerId); } catch (_) {}
+      if (anim) { cancelAnimationFrame(anim); anim = null; all.forEach(n => n.cur = { ...n.t }); }
+    }
+    if (dragStart.moved) { view.x = dragStart.vx + dx; view.y = dragStart.vy + dy; draw(); }
+  }
+});
+function endPointer(e) {
+  pointers.delete(e.pointerId);
+  if (pointers.size < 2) pinchStart = null;
+  if (pointers.size === 1) {
+    const p = [...pointers.values()][0];
+    dragStart = { x: p.x, y: p.y, vx: view.x, vy: view.y, moved: true };
+  }
+  if (pointers.size === 0) { dragStart = null; svg.classList.remove("dragging"); }
+}
+svg.addEventListener("pointerup", endPointer);
+svg.addEventListener("pointercancel", endPointer);
+svg.addEventListener("wheel", e => {
+  e.preventDefault();
+  if (e.ctrlKey || !e.deltaX && Math.abs(e.deltaY) >= 40 && e.deltaMode === 0 && Number.isInteger(e.deltaY)) {
+    zoomAt(Math.exp(-e.deltaY * (e.ctrlKey ? 0.01 : 0.0015)), e.clientX, e.clientY);
+  } else {
+    view.x -= e.deltaX; view.y -= e.deltaY; draw();
+  }
+}, { passive: false });
+
+document.getElementById("zoomIn").onclick = () => zoomAt(1.2, innerWidth / 2, innerHeight / 2);
+document.getElementById("zoomOut").onclick = () => zoomAt(1 / 1.2, innerWidth / 2, innerHeight / 2);
+document.getElementById("fit").onclick = () => animate(fitView());
+document.getElementById("expandAll").onclick = () => setAll(true);
+document.getElementById("collapseAll").onclick = () => setAll(false);
+
+const hint = document.getElementById("hint");
+let hintHidden = false;
+function hideHint() { if (hintHidden) return; hintHidden = true; hint.style.opacity = 0; setTimeout(() => hint.remove(), 700); }
+
+// ---------- start ----------
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+  measure();
+  buildDom();
+  layout();
+  all.forEach(n => n.cur = { ...n.t });
+  Object.assign(view, fitView());
+  draw();
+});
+let rt;
+addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => animate(fitView()), 150); });
+</script>
+</body>
+</html>
